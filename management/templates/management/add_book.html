@@ -1,0 +1,70 @@
+{% extends "management/base.html" %}
+{% load staticfiles %}
+{% block title %}添加图书{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1">
+				{% if state == 'success' %}
+				<div class="well">
+					<h2 class="text-success text-center">添加成功</h2>
+				</div>
+				<ul class="pager">
+					<li class="previous"><a class="text-left" href="{% url 'add_book' %}">继续添加</a></li>
+					<li class="next"><a class="text-right" href="{% url 'homepage' %}">回到主页</a></li>
+				</ul>
+
+				{% else %}
+				<form method="POST" role="form" class="form-horizontal">
+					{% csrf_token %}
+					<h1 class="form-signin-heading text-center">添加图书</h1>
+
+					<div class="form-group">
+						<label for="id_name" class="col-md-3 control-label">书名：</label>
+						<div class="col-md-9">
+							<input type="text" class="form-control" id="id_name" required name="name" autofocus>
+						</div>
+					</div>
+
+
+					<div class="form-group">
+						<label for="id_author" class="col-md-3 control-label">作者：</label>
+						<div class="col-md-9">
+							<input type="text" class="form-control" id="id_author" required name="author" autofocus>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label for="id_category" class="col-md-3 control-label">类型：</label>
+						<div class="col-md-9">
+							<input type="text" class="form-control" id="id_category" required name="category" autofocus>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="id_price" class="col-md-3 control-label">价格：</label>
+						<div class="col-md-9">
+							<input type="text" class="form-control" id="id_price" required name="price" autofocus>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="id_pubdate" class="col-md-3 control-label">出版日期：</label>
+						<div class="col-md-9">
+							<input type="date" class="form-control" id="id_pubdate" required name="publish_date" autofocus>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="col-md-4 col-md-offset-4">
+							<button class="btn btn btn-primary btn-block" type="submit">提交</button>
+						</div>
+					</div>
+				</form>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
