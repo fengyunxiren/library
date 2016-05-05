@@ -183,7 +183,7 @@ def add_img(request):
         try:
             new_img=Img(
                     name=request.POST.get('name',''),
-                    descripton=request.POST.get('description',''),
+                    description=request.POST.get('description',''),
                     img=request.FILES.get('img',''),
                     book=Book.objects.get(id=request.POST.get('book',''))
                     )
@@ -202,3 +202,10 @@ def add_img(request):
             'active_menu':'add_img',
             }
     return render(request,'management/add_img.html',content)
+
+
+from django.conf import settings
+def playmedia(request):
+    base=settings.BASE_DIR
+
+    return render(request,'play.html',{'base':base})

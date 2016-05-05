@@ -30,7 +30,7 @@ class Book(models.Model):
 
 class Img(models.Model):
     name=models.CharField(max_length=128)
-    descripton=models.TextField()
+    description=models.TextField()
     img=models.ImageField(upload_to='image/%Y/%m/%d')
     book=models.ForeignKey(Book)
 
