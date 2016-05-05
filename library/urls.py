@@ -23,8 +23,7 @@ urlpatterns = [
     url(r'',include('management.urls')),
 ]
 
-if settings.DEBUG:
-    urlpatterns+=[
-            url(r'^static/(?P<path>.*)$',views.static.serve,{'document_root':settings.STATIC_ROOT},name='static'),
-            url(r'^media/(?P<path>.*)$',views.static.serve,{'document_root':settings.MEDIA_ROOT},name='media'),
+urlpatterns+=[
+        url(r'^static/(?P<path>.*)$',views.static.serve,{'document_root':settings.STATIC_ROOT},name='static'),
+        url(r'^media/(?P<path>.*)$',views.static.serve,{'document_root':settings.MEDIA_ROOT},name='media'),
     ]
