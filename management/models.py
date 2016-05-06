@@ -38,3 +38,17 @@ class Img(models.Model):
         ordering=['name']
     def __unicode__(self):
         return self.name
+
+
+class Pdf(models.Model):
+    name=models.CharField(max_length=128)
+    descriptions=models.TextField()
+    pdf=models.FileField(upload_to='pdf')
+    book=models.ForeignKey(Book)
+
+    class META:
+        ordering=['name']
+
+    def __unicode__(self):
+        return self.name
+

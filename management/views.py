@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import user_passes_test,login_required
 from django.contrib.auth.models import User
 from django.contrib import auth
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
-from management.models import MyUser,Book,Img
+from management.models import MyUser,Book,Img,Pdf
 from django.core.urlresolvers import reverse
 from management.utils import permission_check
 
@@ -157,6 +157,7 @@ def view_book_list(request):
             'book_list':book_list,
             }
     return render(request,'management/view_book_list.html',content)
+
 def detail(request):
     user=request.user if request.user.is_authenticated() else None
     book_id=request.GET.get('id','')
@@ -203,9 +204,50 @@ def add_img(request):
             }
     return render(request,'management/add_img.html',content)
 
+@user_passes_test(permission_check)
+def add_pdf(request):
+    user=request.user
+    state=None
+    if request.method=='POST':
+        try:
+            new_pdf=Pdf(
+                    name=request.POST.get('name',''),
+                    descriptions=request.POST.get('description',''),
+                    pdf=request.FILES.get('img',''),
+                    book=Book.objects.get(id=request.POST.get('book',''))
+                    )
+            new_pdf.save()
+        except Book.DoesNotExist as e:
+            state='error'
+            print(e)
+        else:
+            state='success'
 
-from django.conf import settings
-def playmedia(request):
-    base=settings.BASE_DIR
+    content={
+            'user':user,
+            'state':state,
+            'book_list':Book.objects.all(),
+            'active_menu':'add_pdf',
+            }
+    return render(request,'management/add_pdf.html',content)
 
-    return render(request,'play.html',{'base':base})
+def view_pdf(request):
+    user=request.user if request.user.is_authenticated() else None
+    book_id=request.GET.get('id','')
+    if book_id=='':
+        return HttpResponseRedirect(reverse('view_book_list'))
+    try:
+        book=Book.objects.get(pk=book_id)
+        pdf=Pdf.objects.get(book=book)
+    except Book.DoesNotExist:
+        return HttpResponseRedirect(reverse('view_book_list'))
+    except Pdf.DoesNotExist:
+        return HttpResponseRedirect(reverse('view_book_list'))
+
+    content={
+            'user':user,
+            'active_menu':'view_pdf',
+            'pdf':pdf,
+            }
+    return render(request,'management/view_pdf.html',content)
+

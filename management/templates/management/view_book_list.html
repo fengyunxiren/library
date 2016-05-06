@@ -41,6 +41,7 @@
 							<th>作者</th>
 							<th>出版日期</th>
 							<th>定价</th>
+							<th>pdf</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -51,6 +52,11 @@
 							<td>{{ book.author }}</td>
 							<td>{{ book.publish_date|date:"Y-m-d" }}</td>
 							<td>{{ book.price|floatformat:2 }}</td>
+							{% if book.pdf_set.all %}
+							<td><a href="{% url 'view_pdf' %}?id={{ book.id }}">[pdf]</a></td>
+							{% else %}
+							<td></td>
+							{% endif %}
 						</tr>
 						{% empty %}
 						<tr>

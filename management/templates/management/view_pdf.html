@@ -1,0 +1,6 @@
+<html>
+<title>{{ pdf.name }}</title>
+<body style="background-color: rgb(38,38,38); height: 100%; width: 100%; overflow: hidden; margin: 0">
+	<embed height="100%" width="100%" name="view_pdf" id="id_pdf" src="{% url 'media' pdf.pdf %}" type="application/pdf"></embed>
+</body>
+</html>

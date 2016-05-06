@@ -11,5 +11,6 @@ urlpatterns=[
         url(r'^view_book_list/$',views.view_book_list,name='view_book_list'),
         url(r'^detail/$',views.detail,name='detail'),
         url(r'^add_img/$',views.add_img,name='add_img'),
-        url(r'^play/$',views.playmedia,name='play'),
+        url(r'^add_pdf/$',views.add_pdf,name='add_pdf'),
+        url(r'^view_pdf/$',views.view_pdf,name='view_pdf'),
         ]

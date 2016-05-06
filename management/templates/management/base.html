@@ -30,6 +30,7 @@
 					{% if user.myuser.permission > 1 %}
 					<li id="add_book"><a href="{% url 'add_book' %}">添加图书</a></li>
 					<li id="add_img"><a href="{% url 'add_img' %}">添加图片</a></li>
+					<li id="add_pdf"><a href="{% url 'add_pdf' %}">添加PDF</a></li>
 					{% endif %}
 					<li id="view_book"><a href="{% url 'view_book_list' %}">查看图书</a></li>
 				</ul>
