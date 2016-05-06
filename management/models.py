@@ -44,7 +44,7 @@ class Pdf(models.Model):
     name=models.CharField(max_length=128)
     descriptions=models.TextField()
     pdf=models.FileField(upload_to='pdf')
-    book=models.ForeignKey(Book)
+    book=models.OneToOneField(Book)
 
     class META:
         ordering=['name']
