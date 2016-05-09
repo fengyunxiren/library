@@ -1,3 +1,5 @@
+#!/usr/bin python
+#-*- coding:utf-8 -*-
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import user_passes_test,login_required
@@ -7,6 +9,8 @@ from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
 from management.models import MyUser,Book,Img,Pdf
 from django.core.urlresolvers import reverse
 from management.utils import permission_check
+import os
+import magic
 
 # Create your views here.
 def index(request):
@@ -213,7 +217,7 @@ def add_pdf(request):
             new_pdf=Pdf(
                     name=request.POST.get('name',''),
                     descriptions=request.POST.get('description',''),
-                    pdf=request.FILES.get('img',''),
+                    pdf=request.FILES.get('pdf',''),
                     book=Book.objects.get(id=request.POST.get('book',''))
                     )
             new_pdf.save()
@@ -221,7 +225,8 @@ def add_pdf(request):
             state='error'
             print(e)
         else:
-            state='success'
+            state=judgeAndTransform(new_pdf)
+            #state='success'
 
     content={
             'user':user,
@@ -250,4 +255,25 @@ def view_pdf(request):
             'pdf':pdf,
             }
     return render(request,'management/view_pdf.html',content)
+
+
+def judgeAndTransform(pdf):
+    p_path=pdf.pdf.path
+    p_name=pdf.pdf.name
+    s=magic.from_file(p_path).split(',')[0]
+    if s!='PDF document':
+        try:
+            os.system("soffice --convert-to --headless pdf --outdir '%s' '%s'" % (os.path.dirname(p_path),p_path))
+        except:
+            return 'error'
+        else:
+            name=u','.join(p_name.split('.')[:-1])+'.pdf'
+            pdf.pdf.name=name
+            pdf.save()
+            os.system("rm -rf '%s'" % p_path)
+            return 'success'
+    else:
+        return 'success'
+
+
 
