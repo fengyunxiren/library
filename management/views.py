@@ -125,7 +125,7 @@ def add_book(request):
                 'user':user,
                 'active_menu':'add_book',
                 'state':state,
-                }
+            }
     return render(request,'management/add_book.html',content)
 
 
