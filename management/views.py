@@ -11,6 +11,7 @@ from django.core.urlresolvers import reverse
 from management.utils import permission_check
 import os
 import magic
+from management.douban import book_search
 
 # Create your views here.
 def index(request):
@@ -255,6 +256,56 @@ def view_pdf(request):
             'pdf':pdf,
             }
     return render(request,'management/view_pdf.html',content)
+
+@user_passes_test(permission_check)
+def import_book(request):
+    user=request.user if request.user.is_authenticated() else None
+    list_search=[]
+    if request.method=='POST':
+        query_name=request.POST.get('query_search','')
+        query_name=query_name.encode("utf-8")
+        list_search=book_search(query_name)
+
+    content={
+            'user':user,
+            'active_menu':'import_book',
+            'list_search':list_search,
+            }
+    return render(request,'management/import_book.html',content)
+
+@user_passes_test(permission_check)
+def import_info(request):
+    user=request.user if request.user.is_authenticated() else None
+    state=None
+    if request.method=='POST':
+        book=request.POST.get('search','')
+        book=eval(book)
+        book_name=book['title']
+        book_author=book['author']
+        book_price=book['price']
+        book_pubdate=book['pubdate']
+        book_sum=book['summary']
+        try:
+            new_book=Book(
+                    name=book_name,
+                    author=book_author,
+                    price=book_price,
+                    category='导入图书',
+                    publish_date=book_pubdate,
+                    )
+            new_book.save()
+            state='success'
+        except:
+            state='error'
+
+    content={
+            'user':user,
+            'active_menu':'import_info',
+            'state':state,
+            }
+    return render(request,'management/import_info.html',content)
+
+        
 
 
 def judgeAndTransform(pdf):

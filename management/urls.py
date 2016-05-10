@@ -13,4 +13,6 @@ urlpatterns=[
         url(r'^add_img/$',views.add_img,name='add_img'),
         url(r'^add_pdf/$',views.add_pdf,name='add_pdf'),
         url(r'^view_pdf/$',views.view_pdf,name='view_pdf'),
+        url(r'^import_book',views.import_book,name='import_book'),
+        url(r'^import_info',views.import_info,name='import_info'),
         ]
