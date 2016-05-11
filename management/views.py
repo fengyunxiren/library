@@ -13,6 +13,10 @@ import os
 import magic
 from management.douban import book_search
 
+import urllib
+from io import BytesIO
+from django.core.files import File
+
 # Create your views here.
 def index(request):
     user=request.user if request.user.is_authenticated() else None
@@ -305,6 +309,23 @@ def import_info(request):
             state='success'
         except:
             state='error'
+        else:
+            if book.has_key('image'):
+                book_image=book['image']
+                try:
+                    book_this=Book.objects.get(name=book_name)
+                    filename=os.path.basename(book_image)
+                    response=urllib.urlopen(book_image)
+                    io=BytesIO(response.read())
+                    new_pimg=Img(
+                            )
+                    new_pimg.book=book_this
+                    new_pimg.name=book_this.name
+                    new_pimg.description=book_this.category
+                    new_pimg.img.save(filename,File(io))
+                    new_pimg.save()
+                except Exception,ex:
+                    print Exception,":",ex
 
     content={
             'user':user,

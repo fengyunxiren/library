@@ -86,6 +86,9 @@ def book_search(qname):
         if jss.has_key('summary'):
             info['summary']=jss['summary']
 
+        if jss.has_key('image'):
+            info['image']=jss['image']
+
         infos+=[info,]
         
     return infos
