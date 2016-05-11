@@ -8,7 +8,7 @@
 <div class="container">
 	<div class "row">
 		<div class="col-md-10 col-md-offset-1">
-			 <div class="col-md-5">
+			<div class="col-md-5">
 				{% if book.img_set.all %}
 				<div id="carousel-generic" class="carousel slide" data-ride="carousel">
 					<ol class="carousel-indicators">
@@ -30,7 +30,7 @@
 					<a class="right carousel-control" href="#carousel-generic" role="button" data-slide="next">
 						<span class="glyphicon glyphicon-chevron-right"></span></a>
 
-
+				</div>
 				{% else %}
 				<p class="text-center">暂无图片</p>
 				{% endif %}
@@ -38,12 +38,19 @@
 			</div> 
 
 
-			<div class="col-md-10 col-md-offset-2">
+			<div class="col-md-12">
 				<h2 >{{ book.name }}</h2>
-				<h3>作者：{{ book.author }}</h3>
-				<h3>类别：{{ book.category }}</h3>
-				<h3>出版日期：{{ book.publish_date|date:"Y-m-d" }}</h3>
-				<h3>价格：{{ book.price|floatformat:2 }}</h3>
+				<h4>作者：{{ book.author }}</h3>
+				<h4>类别：{{ book.category }}</h3>
+				<h4>出版日期：{{ book.publish_date|date:"Y-m-d" }}</h3>
+				<h4>价格：{{ book.price|floatformat:2 }}</h3>
+				<h4>jieshao:</h4>
+				<section>
+				<div class="col-md-12" style="background-color: #f5ffe8;
+               box-shadow: inset 1px -1px 1px #444, inset -1px 1px 1px #444;">
+				<p class="text-justify">{{ book.summary }}</p>
+				</div>
+				</section>
 			</div>
 		</div>
 	</div>

@@ -7,50 +7,58 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-10 col-md-offset-1">
-			<form class="form-inline" role="form" method="post" name="search_form">
+			<div class="row">
+				<form role="form" method="post" name="search_form">
 				{% csrf_token %}
-				<div class="form-group">
-					<div class="col-md-4">
-					<input type="search" class="form-control" required name="query_search" id="id_query_search" autofocus/>
+					<div class="form-group">
+						<div class="col-md-6 col-md-offset-4">
+						<input type="search" class="form-control" required name="query_search" id="id_query_search" autofocus/>
+						</div>
+						<div class="col-md-2">
+						<button class="btn btn btn-primary btn-block" type="submit">查询图书</button>
+						</div>
 					</div>
-					<div class="col-md-3 col-md-offset-4">
-					<button class="btn btn btn-primary btn-block" type="submit">查询</button>
-					</div>
-				</div>
-			</form>
+				</form>
+			</div>
 
 
 			{% if list_search %}
+			<div class="col-md-12">
+			<form role="form" method="post" action="{% url 'import_info' %}" name="select_form" id="select_form">
+			{% csrf_token %}
 				<div class="form-group">
-					<table class="table table-hover">
-						<thead>
-							<tr>
-								<th>选择</th>
-								<th>书名</th>
-								<th>作者</th>
-								<th>出版日期</th>
-								<th>定价</th>
-							</tr>
-						</thead>
-						<tbody>
-						<form role="form" method="post" action="{% url 'import_info' %}" name="select_form" id="select_form">
-						{% csrf_token %}
-						{% for book in list_search %}
-						<tr>
-							<td><input type="radio" name="search" value="{{ book }}"/></td>
-							<td>{{ book.title }}</td>
-							<td>{{ book.author }}</td>
-							<td>{{ book.pubdate }}</td>
-							<td>{{ book.price }}</td>
-						</tr>
-						{% endfor %}
-						<div class="col-md-2 col-md-offset-10">
-							<button class="btn btn btn-primary btn-block" type="submit" id="form_submit">导入</button>
-						</div>
-						</form>
-						</tbody>
-					</table>
+					<div class="col-md-12">
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th>选择</th>
+									<th>书名</th>
+									<th>作者</th>
+									<th>出版日期</th>
+									<th>定价</th>
+								</tr>
+							</thead>
+							<tbody>
+						
+								{% for book in list_search %}
+								<tr>
+									<td><input type="radio" name="search" value="{{ book }}"/></td>
+									<td>{{ book.title }}</td>
+						    		<td>{{ book.author }}</td>
+									<td>{{ book.pubdate }}</td>
+									<td>{{ book.price }}</td>
+								</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+					<div class="col-md-2 col-md-offset-10">
+						<button class="btn btn btn-primary btn-block" type="submit" id="form_submit">导入</button>
+					</div>
 				</div>
+
+			</form>
+			</div>
 			{% endif %}
 
 		</div>

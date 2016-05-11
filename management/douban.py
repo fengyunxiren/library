@@ -59,8 +59,17 @@ def book_search(qname):
 
         if jss.has_key('pubdate'):
             info['pubdate']=jss['pubdate'].replace(u'年','-').replace(u'月','-').replace(u'日','')
-            if info['pubdate'].count('-')<2:
-                info['pubdate']+="-01"
+            info['pubdate']=info['pubdate'].replace('.','-')
+            if info['pubdate'].count('-')==0:
+                if len(info)==10:
+                    info['pubdate']=info['pubdate'][:3]+'-'+info['pubdate'][4:5]+'-'+info['pubdate'][6:]
+                else:
+                    info['pubdate']="1970-07-01"
+            elif info['pubdate'].count('-')==1:
+                info['pubdate']+='-01'
+                
+
+
 
         if jss.has_key('price'):
             info['price']=filter(lambda ch: ch in '0123456789.',jss['price'])

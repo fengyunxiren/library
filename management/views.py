@@ -116,7 +116,8 @@ def add_book(request):
                 author=request.POST.get('author',''),
                 category=request.POST.get('category',''),
                 price=request.POST.get('price',0),
-                publish_date=request.POST.get('publish_date','')
+                publish_date=request.POST.get('publish_date',''),
+                summary=request.POST.get('summary','')
                 )
         new_book.save()
         state='success'
@@ -144,7 +145,7 @@ def view_book_list(request):
         book_list=Book.objects.filter(name__contains=keyword)
         query_category='all'
 
-    paginator=Paginator(book_list,5)
+    paginator=Paginator(book_list,15)
     page=request.GET.get('page')
     try:
         book_list=paginator.page(page)
@@ -292,6 +293,7 @@ def import_info(request):
                     price=book_price,
                     category='导入图书',
                     publish_date=book_pubdate,
+                    summary=book_sum
                     )
             new_book.save()
             state='success'
