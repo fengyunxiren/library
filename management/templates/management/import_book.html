@@ -21,7 +21,6 @@
 				</form>
 			</div>
 
-
 			{% if list_search %}
 			<div class="col-md-12">
 			<form role="form" method="post" action="{% url 'import_info' %}" name="select_form" id="select_form">
@@ -34,6 +33,7 @@
 									<th>选择</th>
 									<th>书名</th>
 									<th>作者</th>
+									<th>类别</th>
 									<th>出版日期</th>
 									<th>定价</th>
 								</tr>
@@ -44,7 +44,8 @@
 								<tr>
 									<td><input type="radio" name="search" value="{{ book }}"/></td>
 									<td>{{ book.title }}</td>
-						    		<td>{{ book.author }}</td>
+						    			<td>{{ book.author }}</td>
+									<td>{{ book.category }}</td>
 									<td>{{ book.pubdate }}</td>
 									<td>{{ book.price }}</td>
 								</tr>
@@ -59,6 +60,10 @@
 
 			</form>
 			</div>
+			{% else %}
+			{% if jud %}
+			<p>没有查到相关书籍！</p>
+			{% endif %}
 			{% endif %}
 
 		</div>

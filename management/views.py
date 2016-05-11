@@ -262,15 +262,17 @@ def view_pdf(request):
 def import_book(request):
     user=request.user if request.user.is_authenticated() else None
     list_search=[]
+    jud=0
     if request.method=='POST':
         query_name=request.POST.get('query_search','')
         query_name=query_name.encode("utf-8")
         list_search=book_search(query_name)
-
+        jud=1
     content={
             'user':user,
             'active_menu':'import_book',
             'list_search':list_search,
+            'jud':jud
             }
     return render(request,'management/import_book.html',content)
 
@@ -286,12 +288,16 @@ def import_info(request):
         book_price=book['price']
         book_pubdate=book['pubdate']
         book_sum=book['summary']
+        if book['category']:
+            book_category=book['category']
+        else:
+            book_category=u'导入图书'
         try:
             new_book=Book(
                     name=book_name,
                     author=book_author,
                     price=book_price,
-                    category='导入图书',
+                    category=book_category,
                     publish_date=book_pubdate,
                     summary=book_sum
                     )

@@ -74,12 +74,18 @@ def book_search(qname):
         if jss.has_key('price'):
             info['price']=filter(lambda ch: ch in '0123456789.',jss['price'])
 
-        if jss.has_key('category'):
-            info['category']=jss['category']
+        if jss.has_key('tags'):
+            for categorys in jss['tags']:
+                category=categorys['name']
+                if category != info['title'] and not(category in info['author']):
+                    info['category']=category
+                    break
+                else:
+                    info['category']=u'其它'
 
         if jss.has_key('summary'):
             info['summary']=jss['summary']
-        
-        infos=infos+[info,]
 
+        infos+=[info,]
+        
     return infos
