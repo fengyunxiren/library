@@ -285,47 +285,47 @@ def import_info(request):
     user=request.user if request.user.is_authenticated() else None
     state=None
     if request.method=='POST':
-        book=request.POST.get('search','')
-        book=eval(book)
-        book_name=book['title']
-        book_author=book['author']
-        book_price=book['price']
-        book_pubdate=book['pubdate']
-        book_sum=book['summary']
-        if book['category']:
-            book_category=book['category']
-        else:
-            book_category=u'导入图书'
-        try:
-            new_book=Book(
-                    name=book_name,
-                    author=book_author,
-                    price=book_price,
-                    category=book_category,
-                    publish_date=book_pubdate,
-                    summary=book_sum
-                    )
-            new_book.save()
-            state='success'
-        except:
-            state='error'
-        else:
-            if book.has_key('image'):
-                book_image=book['image']
-                try:
-                    book_this=Book.objects.get(name=book_name)
-                    filename=os.path.basename(book_image)
-                    response=urllib.urlopen(book_image)
-                    io=BytesIO(response.read())
-                    new_pimg=Img(
-                            )
-                    new_pimg.book=book_this
-                    new_pimg.name=book_this.name
-                    new_pimg.description=book_this.category
-                    new_pimg.img.save(filename,File(io))
-                    new_pimg.save()
-                except Exception,ex:
-                    print Exception,":",ex
+        books=request.POST.getlist('search','')
+        for book in books:
+            book=eval(book)
+            book_name=book['title']
+            book_author=book['author']
+            book_price=book['price']
+            book_pubdate=book['pubdate']
+            book_sum=book['summary']
+            if book['category']:
+                book_category=book['category']
+            else:
+                book_category=u'导入图书'
+            try:
+                new_book=Book(
+                        name=book_name,
+                        author=book_author,
+                        price=book_price,
+                        category=book_category,
+                        publish_date=book_pubdate,
+                        summary=book_sum
+                        )
+                new_book.save()
+                state='success'
+            except:
+                state='error'
+            else:
+                if book.has_key('image'):
+                    book_image=book['image']
+                    try:
+                        book_this=Book.objects.get(name=book_name)
+                        filename=os.path.basename(book_image)
+                        response=urllib.urlopen(book_image)
+                        io=BytesIO(response.read())
+                        new_pimg=Img()
+                        new_pimg.book=book_this
+                        new_pimg.name=book_this.name
+                        new_pimg.description=book_this.category
+                        new_pimg.img.save(filename,File(io))
+                        new_pimg.save()
+                    except Exception,ex:
+                        print Exception,":",ex
 
     content={
             'user':user,
