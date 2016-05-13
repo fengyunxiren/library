@@ -57,7 +57,7 @@
 						<td>{{ book.publish_date|date:"Y-m-d" }}</td>
 						<td>{{ book.price|floatformat:2 }}</td>
 						{% if book.pdf %}
-						<td><a href="{% url 'view_pdf' %}?id={{ book.id }}">[pdf]</a></td>
+						<td><a href="{% url 'view_pdf' %}?id={{ book.id }}" target="_blank"><span class="glyphicon glyphicon-file"></span></a></td>
 						{% else %}
 						<td></td>
 						{% endif %}
