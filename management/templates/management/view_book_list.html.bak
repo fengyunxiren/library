@@ -8,7 +8,7 @@
 <div class="container">
    <div class="row">
 
-      <div class="col-md-2" id="slide">
+      <div class="col-md-2">
          <a href="{% url 'view_book_list' %}" class="list-group-item" id="id_category_all">全部图书</a>
 			{% for category in category_list %}
 			<a href="{% url 'view_book_list' %}?category={{ category }}" class="list-group-item" id="id_category_{{ category }}">{{ category }}</a>
@@ -19,9 +19,9 @@
 			</script>
       </div>
 
-      <div class="col-md-10" id="content">
+      <div class="col-md-10">
  
-         <div class="col-md-6 col-md-offset-6" id="content-inner">
+         <div class="col-md-6 col-md-offset-6">
 			<form role="form" method="post" name="search_form">
 				{% csrf_token %}
 				<div class="form-group">
@@ -37,7 +37,7 @@
 			</form>
 		</div>
 
-			<table class="table table-hover" id="id_table">
+			<table class="table table-hover">
 				<thead>
 					<tr>
 						<th>#</th>
@@ -70,7 +70,7 @@
 				</tbody>
 			</table>
 
-			<nav id="id_nav">
+			<nav>
 				<ul class="pager">
 					{% if book_list.has_previous %}
 					<li class="previous"><a href="?category={{ query_category }}&page={{ book_list.previous_page_number }}">上一页</a></li>
@@ -91,22 +91,4 @@
    </div>
 
 </div>
-<script>
-$(function(){
-		$('#slide a').each(function(){
-			$(this).mouseover(function(){
-				$.ajax({
-					type:'GET',
-					url:$(this).attr("href"),
-					success:function(datas){
-					var result=$(datas).find("#id_table");
-					var nav=$(datas).find("#id_nav");
-					$("#id_table").replaceWith(result);
-					$("#id_nav").html(nav);
-					}
-					});
-				});
-			});
-		});
-</script>
 {% endblock %}
