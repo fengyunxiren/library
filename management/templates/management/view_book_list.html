@@ -93,20 +93,34 @@
 </div>
 <script>
 $(function(){
-		$('#slide a').each(function(){
-			$(this).mouseover(function(){
-				$.ajax({
-					type:'GET',
-					url:$(this).attr("href"),
-					success:function(datas){
-					var result=$(datas).find("#id_table");
-					var nav=$(datas).find("#id_nav");
-					$("#id_table").replaceWith(result);
-					$("#id_nav").replaceWith(nav);
-					}
-					});
-				});
+	$('#slide a').each(function(){
+		$(this).mouseover(function(){
+			$.ajax({
+				type:'GET',
+				url:$(this).attr("href"),
+				success:function(datas){
+				var result=$(datas).find("#id_table");
+				var nav=$(datas).find("#id_nav");
+				$("#id_table").replaceWith(result);
+				$("#id_nav").replaceWith(nav);
+				}
 			});
 		});
+	});
+
+	$('#id_search_input').on('input',function() {
+		$.ajax({
+				type:'POST',
+				url:window.location.pathname,
+				data:$("form").serialize(),
+				success:function(datas){
+				var result=$(datas).find("#id_table");
+				var nav=$(datas).find("#id_nav");
+				$("#id_table").replaceWith(result);
+				$("#id_nav").replaceWith(nav);
+				}
+			});
+	});
+});
 </script>
 {% endblock %}
